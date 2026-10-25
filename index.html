@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#000000"><meta name="description" content="내 PC에서 만드는 세로 AI 하이라이트. 로컬 음성 인식, 자동 자막, 9:16 MP4 출력."><title>SHORTFLIX — Your Local Creative Studio</title>
+<style>/* SHORTFLIX cinematic presentation. No external CSS, fonts or image requests. */
+:root{color-scheme:dark;--black:#000;--bg:#141414;--surface:#181818;--hover:#252525;--red:#e50914;--red-hover:#b80710;--text:#fff;--body:#e5e5e5;--muted:#b3b3b3;--quiet:#808080;--line:#ffffff14;--green:#22c55e;--amber:#f59e0b;--error:#ef4444;--radius:14px;font-family:Inter,"SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-synthesis:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--body);line-height:1.6}button,input,select{font:inherit}button,a,label,input,select{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button:disabled:hover{transform:none;box-shadow:none}::selection{background:#e5091460;color:#fff}:focus-visible{outline:3px solid var(--red);outline-offset:5px}svg{width:22px;height:22px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.hidden{display:none!important}
+.shell{width:min(1440px,calc(100% - 96px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#000f,#000e 65%,#000b);border-bottom:1px solid #ffffff09;backdrop-filter:blur(18px)}.nav{min-height:80px;display:flex;align-items:center;gap:36px}.brand{font-size:30px;font-weight:950;letter-spacing:-1.8px;color:var(--red);line-height:1}.brand small{font-size:10px;color:var(--muted);letter-spacing:2px;display:block;margin-top:8px;font-weight:500}.navlinks{display:flex;gap:26px;font-size:13px;color:var(--muted)}.navlinks a:hover{color:#fff}.navlinks .active-link{color:#fff}.trust{margin-left:auto;display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:10px;color:var(--muted);background:#18181888}.trust svg{width:15px;height:15px;color:var(--green)}
+.hero{position:relative;overflow:hidden;background:#000;isolation:isolate;border-bottom:1px solid #ffffff08}.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 85% 30%,#e5091419,transparent 50%),linear-gradient(0deg,#141414,#000 65%)}.hero-inner{padding-top:65px;padding-bottom:54px;display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:35px}.eyebrow{font-size:11px;font-weight:750;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}.live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 15px #e5091480}.hero h1{font-size:clamp(42px,4.7vw,70px);letter-spacing:-2.5px;font-weight:900;line-height:1.08;color:#fff;margin:23px 0}.hero h1 span{color:var(--red)}.hero-copy{font-size:15px;max-width:520px;color:var(--muted);line-height:1.9}.hero-meta{display:flex;gap:13px;flex-wrap:wrap;align-items:center;margin-top:23px;font-size:11px;color:var(--muted)}.match{color:var(--green);font-weight:700}.meta-outline{border:1px solid #ffffff40;padding:1px 6px;font-size:10px}.hero-art{height:280px;position:relative;display:grid;place-items:center;pointer-events:none;user-select:none}.poster{width:140px;height:242px;border:1px solid #ffffff1a;border-radius:11px;background:linear-gradient(150deg,#353535,#171717 55%,#070707);position:absolute;box-shadow:0 20px 55px #0009;overflow:hidden;display:flex;align-items:flex-end;padding:17px;font-size:10px;color:#fff9;letter-spacing:2px}.poster::before{content:"";position:absolute;width:160px;height:160px;border:1px solid #ffffff10;border-radius:50%;left:28px;top:30px}.poster.left{transform:translateX(-108px) rotate(-12deg);background:linear-gradient(155deg,#37302e,#121212 75%)}.poster.right{transform:translateX(108px) rotate(12deg);background:linear-gradient(155deg,#232d30,#121212 75%)}.poster.center{width:158px;height:272px;z-index:1;background:linear-gradient(155deg,#681a20,#1b0c0d 65%,#070707);display:grid;align-content:end;gap:8px;box-shadow:0 0 70px #e5091418,0 30px 50px #000c}.poster.center .number{position:absolute;top:12px;left:15px;color:var(--red);font-size:52px;font-weight:900;letter-spacing:-4px}.poster.center strong{font-size:22px;line-height:1.1;letter-spacing:-.8px;color:white}.poster.center .bar{height:3px;width:60px;background:var(--red)}.poster-play{position:absolute;inset:0;display:grid;place-items:center}.poster-play svg{width:46px;height:46px;fill:#ffffffd9;stroke:none}
+main{padding-bottom:64px}.advisory{margin:18px 0 35px;display:flex;align-items:flex-start;gap:15px;padding:18px 22px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;background:#181818c9}.advisory>svg{color:var(--amber);margin-top:2px}.advisory h2{font-size:13px;color:#fff;margin:0 0 4px}.advisory ul{padding:0;margin:0;list-style:none;font-size:12px;color:var(--muted)}.advisory li::before{content:"·";margin-right:8px;color:var(--quiet)}#capability{font-size:11px;margin:8px 0 0;color:var(--quiet)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:30px 0 17px}.section-head h2{margin:0;color:#fff;font-size:21px;letter-spacing:-.6px}.section-head .meta{color:var(--quiet);font-size:11px}.red-rule{width:3px;height:18px;display:inline-block;background:var(--red);vertical-align:-2px;margin-right:10px}.workspace{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,1fr);gap:20px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);min-width:0}.upload-panel{padding:22px}.panel-label{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:16px}.panel-label span:last-child{letter-spacing:0;color:var(--quiet)}.dropzone{position:relative;min-height:298px;border:1px dashed #ffffff30;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:10px;padding:28px 20px;background:radial-gradient(ellipse at 50% 5%,#e509140b,transparent 70%),#111;transition:background .2s,border-color .2s,box-shadow .2s;overflow:hidden;cursor:pointer}.dropzone:hover,.dropzone.dragging{border-color:var(--red);background:#201214;box-shadow:inset 0 0 40px #e5091409}.dropzone:focus-within{outline:3px solid var(--red);outline-offset:4px}.dropzone.busy{opacity:.55;cursor:wait}.dropzone input{position:absolute;width:100%;height:100%;inset:0;opacity:0;cursor:pointer;z-index:2}.dropzone input:disabled{cursor:wait}.upload-icon{width:67px;height:67px;border-radius:18px;border:1px solid #e5091440;background:#e5091412;color:var(--red);display:grid;place-items:center;box-shadow:0 0 35px #e5091415;margin-bottom:8px}.upload-icon svg{width:29px;height:29px}.dropzone strong{font-size:17px;letter-spacing:-.4px;color:#fff;line-height:1.4;max-width:340px}.dropzone .help{font-size:12px;color:var(--quiet)}.chips{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}.chip{font-size:10px;border:1px solid #ffffff16;color:var(--muted);background:#ffffff04;border-radius:4px;padding:4px 8px;line-height:1.4}.file-summary{display:flex;gap:12px;align-items:center;padding:15px 3px 0}.file-icon{width:33px;height:38px;background:#252525;display:grid;place-items:center;border-radius:5px;color:var(--muted)}.file-summary .file-name{color:#fff;font-size:12px;overflow-wrap:anywhere;word-break:break-word}.file-summary .file-size{font-size:10px;color:var(--quiet)}.file-summary .selected-tag{margin-left:auto;color:var(--green);font-size:10px;flex-shrink:0}.local-note{display:flex;gap:8px;font-size:11px;color:var(--quiet);align-items:flex-start;margin:17px 0 0}.local-note svg{width:14px;height:14px;margin-top:2px;color:var(--muted)}.settings{padding:22px;display:flex;flex-direction:column}.settings h3{font-size:15px;color:#fff;margin:0 0 18px}.field-label{font-size:11px;color:var(--muted);display:block;margin-bottom:8px}.select-wrap{position:relative}.select-wrap svg{position:absolute;right:13px;top:15px;width:15px;height:15px;pointer-events:none;color:var(--quiet)}select{appearance:none;background:#0f0f0f;color:#fff;border:1px solid #ffffff20;border-radius:6px;width:100%;padding:12px 36px 12px 13px;font-size:12px;outline-offset:2px}.divider{height:1px;background:var(--line);margin:20px 0}.toggle-row{display:flex;gap:16px;align-items:center;cursor:pointer}.toggle-copy{flex:1}.toggle-copy strong{display:block;font-size:13px;color:#fff;font-weight:600}.toggle-copy small{display:block;color:var(--quiet);font-size:11px;margin-top:4px;line-height:1.7}.switch{position:relative;flex-shrink:0;width:40px;height:22px}.switch input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;z-index:1;cursor:pointer}.switch-track{display:block;width:40px;height:22px;border-radius:22px;background:#414141;transition:background .2s}.switch-track::after{content:"";width:16px;height:16px;border-radius:50%;position:absolute;left:3px;top:3px;background:#fff;transition:transform .2s}.switch input:checked+.switch-track{background:var(--red)}.switch input:checked+.switch-track::after{transform:translateX(18px)}.switch input:focus-visible+.switch-track{outline:3px solid var(--red);outline-offset:4px}.switch input:disabled+.switch-track{opacity:.4}.output-spec{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);margin:0 0 7px}.output-spec strong{color:#fff;font-size:11px;font-weight:500}.fixed-note{font-size:10px;color:var(--quiet);margin-top:7px}.settings-actions{margin-top:auto;padding-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid transparent;border-radius:6px;padding:12px 19px;font-size:13px;font-weight:650;line-height:1.4;transition:background .2s,transform .2s,box-shadow .2s;color:#fff}.btn svg{width:18px;height:18px}.btn-primary{background:var(--red);box-shadow:0 6px 25px #e509141a}.btn-primary:hover:not(:disabled){background:var(--red-hover);box-shadow:0 8px 30px #e509142b;transform:translateY(-1px)}.btn-large{width:100%;font-size:17px;padding:16px 20px}.btn-secondary{background:#ffffff0b;border-color:#ffffff20}.btn-secondary:hover:not(:disabled){background:var(--hover)}.cancel-line{margin-top:10px;width:100%;background:transparent;border:0;color:var(--muted);font-size:11px;padding:7px;display:flex;align-items:center;justify-content:center;gap:6px}.cancel-line svg{width:13px;height:13px}.cancel-line:hover:not(:disabled){color:#fff}.cancel-line:disabled{opacity:.3}.privacy-mini{text-align:center;font-size:10px;color:var(--quiet);margin:11px 0 0}
+.processing-panel{margin-top:24px;padding:24px}.status-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.status-header{display:flex;align-items:center;gap:10px}.status-beacon{width:7px;height:7px;border-radius:50%;background:var(--quiet)}.processing-panel.is-working .status-beacon{background:var(--red);animation:breathe 1.8s infinite}.processing-panel.is-success .status-beacon{background:var(--green)}.processing-panel.is-error .status-beacon{background:var(--error)}.status-header h2{font-size:14px;margin:0;color:white}.engine-label{font-size:10px;color:var(--quiet);letter-spacing:1px}.status-copy{font-size:12px;color:var(--muted);margin:8px 0 0;overflow-wrap:anywhere}.is-error .status-copy{color:#fca5a5}.is-success .status-copy{color:#86efac}.percentage{font-size:25px;letter-spacing:-1px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}.percentage small{font-size:12px;color:var(--quiet);font-weight:400;margin-left:2px}progress{appearance:none;-webkit-appearance:none;border:0;width:100%;height:4px;display:block;background:#333;border-radius:10px;overflow:hidden;margin:20px 0 27px;accent-color:var(--red)}progress::-webkit-progress-bar{background:#333}progress::-webkit-progress-value{background:var(--red);transition:width .35s}progress::-moz-progress-bar{background:var(--red)}.is-success progress::-webkit-progress-value{background:var(--green)}.is-success progress::-moz-progress-bar{background:var(--green)}.pipeline{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0}.pipeline li{position:relative;display:flex;align-items:center;gap:10px;color:var(--quiet)}.pipeline li:not(:last-child)::after{content:"";position:absolute;left:46px;right:18px;height:1px;top:15px;background:#ffffff0c;z-index:0}.checkpoint{width:30px;height:30px;border-radius:50%;border:1px solid #ffffff20;display:grid;place-items:center;background:#181818;font-size:11px;flex-shrink:0;z-index:1;transition:all .2s}.step-copy{z-index:1;position:relative;background:#181818;padding-right:10px}.step-copy strong{display:block;font-size:11px;font-weight:500}.step-copy small{display:block;font-size:9px;margin-top:1px;color:var(--quiet)}.pipeline li.current{color:#fff}.pipeline li.current .checkpoint{border-color:var(--red);background:var(--red);box-shadow:0 0 18px #e5091440}.pipeline li.done .checkpoint{color:var(--red);border-color:#e5091470}.pipeline li.done .step-copy strong{color:var(--muted)}.terminal{margin-top:27px;border:1px solid var(--line);border-radius:8px;background:#090909;overflow:hidden}.terminal-bar{display:flex;align-items:center;gap:6px;padding:10px 13px;background:#101010;border-bottom:1px solid var(--line)}.terminal-bar i{width:6px;height:6px;border-radius:50%;background:#444}.terminal-bar i:first-child{background:#c35050}.terminal-bar i:nth-child(2){background:#b89848}.terminal-bar i:nth-child(3){background:#548c65}.terminal-bar span{font-size:9px;font-family:monospace;color:var(--quiet);margin-left:9px}.terminal-bar button{background:none;border:0;color:var(--quiet);font-size:10px;margin-left:auto}.terminal-bar button:hover{color:#fff}#log{height:160px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:15px 16px;color:#a3a3a3;font:11px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;scrollbar-width:thin;scrollbar-color:#333 #090909}#log:empty::before{content:"// Ready. Your next short starts here.";color:#555}.progress-foot{display:flex;gap:10px;justify-content:space-between;font-size:10px;color:var(--quiet);margin-top:13px}.progress-foot span:first-child{display:flex;gap:6px;align-items:center}.progress-foot svg{width:12px;height:12px}
+.result-panel{margin-top:35px;animation:reveal .45s ease}.result-shell{display:grid;grid-template-columns:minmax(240px,390px) 1fr;gap:0;overflow:hidden}.player-stage{padding:26px;background:radial-gradient(ellipse at center,#2e1719,#070707 80%);display:grid;place-items:center;min-height:420px}.player-frame{aspect-ratio:9/16;height:min(500px,58vh);max-width:100%;border-radius:12px;background:#000;overflow:hidden;border:1px solid #ffffff25;box-shadow:0 20px 55px #000a}.player-frame video{height:100%;width:100%;display:block;object-fit:contain;background:#000}.result-info{padding:40px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.ready-pill{display:inline-flex;gap:6px;align-items:center;font-size:10px;color:var(--green);border:1px solid #22c55e30;background:#22c55e0a;border-radius:4px;padding:5px 8px}.ready-pill svg{width:12px;height:12px}.result-info h3{font-size:35px;line-height:1.16;letter-spacing:-1.4px;margin:20px 0 15px;color:#fff}.result-info>p{font-size:12px;color:var(--muted);line-height:1.9}#selection{font-size:11px;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 0;width:100%;margin:16px 0}.result-chips{display:flex;gap:7px;flex-wrap:wrap}.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.srt-hint{font-size:10px!important;color:var(--quiet)!important;margin-top:12px}footer{border-top:1px solid var(--line);padding:24px 0 0;margin-top:40px;color:var(--quiet);font-size:10px;display:flex;gap:25px;justify-content:space-between;align-items:flex-start}footer p{margin:0;max-width:650px}footer details{max-width:650px;margin-top:10px}footer summary{cursor:pointer;color:var(--muted);font-size:11px}footer details p{margin:12px 0}.footer-brand{font-size:17px;color:#555;font-weight:850;letter-spacing:-.8px;white-space:nowrap}
+#ad{width:min(650px,calc(100vw - 32px));padding:0;background:#141414;color:var(--body);border:1px solid #ffffff24;border-radius:14px;box-shadow:0 35px 110px #000b;max-height:calc(100dvh - 40px);overflow:auto}#ad::backdrop{background:#000d;backdrop-filter:blur(9px)}#ad[open]{animation:reveal .25s ease}.modal-head{padding:22px 26px 16px;display:flex;justify-content:space-between;gap:15px;align-items:center}.modal-kicker{font-size:9px;letter-spacing:1.8px;color:var(--quiet)}.skip{background:#ffffff0a;border:1px solid #ffffff25;border-radius:5px;color:#fff;font-size:11px;padding:8px 12px;display:flex;align-items:center;gap:6px}.skip:hover{background:#333}.skip svg{width:13px;height:13px}.sponsor-stage{margin:0 26px;height:205px;border:1px solid #ffffff14;border-radius:9px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 90% 0%,#e5091426,transparent 65%),linear-gradient(135deg,#272727,#0b0b0b);padding:26px;display:flex;flex-direction:column;justify-content:flex-end}.sponsor-stage::after{content:"";position:absolute;width:220px;height:220px;right:-30px;top:-75px;border:1px solid #e5091430;transform:rotate(35deg);border-radius:25px;pointer-events:none}.sponsor-tag{position:absolute;top:18px;left:23px;font-size:8px;letter-spacing:1.4px;color:var(--muted);border:1px solid #ffffff25;padding:3px 6px}.sponsor-stage h3{font-size:28px;color:#fff;letter-spacing:-1px;line-height:1.2;margin:0 0 8px;z-index:1}.sponsor-stage p{font-size:11px;max-width:380px;margin:0;color:var(--muted);z-index:1}.modal-body{padding:22px 26px 26px}.modal-body h2{font-size:17px;color:#fff;margin:0 0 7px}#modalStatus{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.countdown-row{display:flex;justify-content:space-between;gap:14px;font-size:10px;color:var(--quiet);margin-top:22px}.countdown-track{height:3px;background:#333;border-radius:3px;overflow:hidden;margin:8px 0 16px}.countdown-fill{height:100%;width:0;background:var(--red);transition:width .15s linear}.modal-info{font-size:10px;color:var(--quiet);line-height:1.8;margin:10px 0 19px}.modal-actions{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-actions span{font-size:10px;color:var(--quiet)}.modal-actions button{font-size:11px;padding:8px 12px}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#252525;border:1px solid #ffffff25;padding:12px 20px;border-radius:8px;max-width:90vw;font-size:12px;color:#fff;z-index:100;box-shadow:0 12px 30px #0008}.upload-warning{font-size:11px;color:var(--amber);min-height:0;margin:8px 0 0}.upload-warning:empty{display:none}
+@keyframes breathe{50%{box-shadow:0 0 0 5px #e5091418}}@keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:1600px){.hero-inner{padding-top:80px;padding-bottom:70px}.hero-art{height:310px}}
+@media(max-width:1100px){.shell{width:calc(100% - 48px)}.trust{font-size:9px;padding:7px 9px}.nav{gap:25px}.hero h1{font-size:48px}.hero-art{transform:scale(.88)}.workspace{grid-template-columns:minmax(0,1.2fr) minmax(290px,1fr)}.step-copy small{display:none}.pipeline li:not(:last-child)::after{right:10px}.result-info{padding:28px}}
+@media(max-width:800px){.shell{width:calc(100% - 36px)}.nav{min-height:70px}.brand{font-size:25px}.navlinks{display:none}.trust{max-width:235px;font-size:8px}.hero-inner{grid-template-columns:1fr .65fr;padding-top:40px;padding-bottom:35px;gap:0}.hero h1{font-size:40px;letter-spacing:-1.8px}.hero-art{transform:scale(.62);transform-origin:center;height:235px}.hero-copy{font-size:12px}.workspace{grid-template-columns:1fr}.dropzone{min-height:245px}.settings-actions{padding-top:15px}.settings{padding:22px}.pipeline li{flex-direction:column;align-items:flex-start;gap:8px}.pipeline li:not(:last-child)::after{left:40px;right:8px}.step-copy{padding-right:4px}.step-copy strong{font-size:10px}.result-shell{grid-template-columns:1fr 1.1fr}.player-stage{padding:20px;min-height:300px}.player-frame{height:auto;width:100%}.result-info h3{font-size:27px}.result-actions{flex-direction:column;width:100%}.result-actions .btn{width:100%}.section-head .meta{font-size:9px}}
+@media(max-width:560px){.trust{display:none}.hero-inner{display:block;padding-top:36px}.hero h1{font-size:43px}.hero-art{display:none}.hero-copy{max-width:380px}.advisory{padding:15px;margin-bottom:24px}.advisory ul{font-size:11px}.section-head h2{font-size:18px}.section-head .meta{display:none}.processing-panel{padding:18px}.pipeline{gap:6px}.step-copy strong{font-size:9px}.checkpoint{width:27px;height:27px}.pipeline li:not(:last-child)::after{top:13px;left:32px}.progress-foot{flex-direction:column;gap:4px}.result-shell{grid-template-columns:1fr}.player-stage{padding:24px}.player-frame{height:min(500px,65vh);width:auto;max-width:100%}.result-info{padding:25px}.result-info h3{font-size:30px}footer{flex-direction:column;gap:15px}.modal-head{padding:17px}.sponsor-stage{margin:0 17px;padding:22px;height:185px}.sponsor-stage h3{font-size:23px}.modal-body{padding:20px 17px}.modal-actions{align-items:flex-start}.modal-actions span{max-width:180px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body><a class="sr-only" href="#studio">Skip to studio</a>
+<header class="topbar"><div class="shell nav"><a class="brand" href="#" aria-label="SHORTFLIX 홈">SHORTFLIX<small>YOUR LOCAL CREATIVE STUDIO</small></a><nav class="navlinks" aria-label="주 메뉴"><a class="active-link" href="#studio">Create</a><a href="#processing">Pipeline</a><a href="#privacy">Privacy</a></nav><div class="trust"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4 8 9 8 9s8-5 8-9V6z"/><path d="m8 12 3 3 5-6"/></svg><span>100% Client-Side · Zero Server Cost · Secure &amp; Private</span></div></div></header>
+<div class="hero"><div class="shell hero-inner"><div><div class="eyebrow"><span class="live-dot"></span> A SHORTFLIX ORIGINAL TOOL</div><h1>Long story.<br><span>Short spotlight.</span></h1><p class="hero-copy">긴 영상 속, 놓칠 수 없는 한 장면.<br>내 PC의 AI로 하이라이트를 찾고 세로 쇼츠로 완성하세요.</p><div class="hero-meta"><span class="match">100% Local Processing</span><span class="meta-outline">9:16</span><span>Auto Captions</span><span>MP4 Export</span></div></div><div class="hero-art" aria-hidden="true"><div class="poster left">THE FULL STORY</div><div class="poster right">THE NEXT MOMENT</div><div class="poster center"><span class="number">S</span><div class="poster-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></div><div class="bar"></div><strong>YOUR NEXT<br>HIGHLIGHT.</strong><span>30 SECONDS. ALL YOU.</span></div></div></div></div>
+<main class="shell"><aside class="advisory" aria-labelledby="advisoryTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 10 18H2zM12 9v4m0 4h.01"/></svg><div><h2 id="advisoryTitle">FEATURE ADVISORY · 내 PC가 곧 렌더링 스튜디오입니다</h2><ul><li>데스크톱 Chrome/Edge 권장 · RAM 8GB 이상, 16GB 권장 · 모바일 미지원</li><li>WebGPU 및 외장 GPU 권장. GTX 1060 / RX 580급은 참고 사양이며 호환성을 보장하지 않습니다.</li><li>원본 영상은 업로드하지 않습니다. 첫 실행에는 외부 라이브러리·모델·폰트 다운로드가 필요합니다.</li></ul><p id="capability">브라우저 기능 확인 중…</p></div></aside>
+<section id="studio" aria-labelledby="studioTitle"><div class="section-head"><h2 id="studioTitle"><span class="red-rule"></span>Your next original</h2><span class="meta">01 / SELECT &amp; CONFIGURE</span></div><div class="workspace"><div class="panel upload-panel"><div class="panel-label"><span>Source footage</span><span>PRIVATE BY DESIGN</span></div><label class="dropzone" id="dropzone"><input id="file" type="file" accept=".mp4,video/mp4" aria-label="MP4 영상 선택" aria-describedby="uploadSpecs"><span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5h16v-5"/></svg></span><strong>Drag &amp; Drop your<br>long-form MP4 here</strong><span class="help">또는 클릭하여 내 PC에서 영상 선택</span><span class="chips" id="uploadSpecs"><span class="chip">Max 512 MiB</span><span class="chip">Up to 30 min</span><span class="chip">H.264 MP4 권장</span></span></label><div id="fileSummary" class="file-summary hidden"><span class="file-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H5v20h14V7zM14 2v6h5M8 13h8m-8 4h5"/></svg></span><div><div id="fileName" class="file-name"></div><div id="fileSize" class="file-size"></div></div><span class="selected-tag">SELECTED</span></div><p class="upload-warning" id="uploadWarning" role="status"></p><p class="local-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/></svg><span>Only on your device. 영상은 로컬에서 처리되며 처리 서버로 전송되지 않습니다.</span></p></div>
+<aside class="panel settings" aria-labelledby="settingsTitle"><h3 id="settingsTitle">Make it yours</h3><label class="field-label" for="language">음성 인식 언어 / Speech language</label><div class="select-wrap"><select id="language"><option value="">자동 감지 / Auto-detect</option><option value="korean">한국어 / Korean</option><option value="english">영어 / English</option><option value="japanese">일본어 / Japanese</option><option value="chinese">중국어 / Chinese</option></select><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="divider"></div><label class="toggle-row" for="useLLM"><span class="toggle-copy"><strong>AI Director’s Pick</strong><small>WebLLM으로 후보 재평가. 추가 모델 다운로드·메모리 사용. 실패 시 기본 분석을 유지합니다.</small></span><span class="switch"><input id="useLLM" type="checkbox"><span class="switch-track"></span></span></label><div class="divider"></div><div class="output-spec"><span>출력 포맷</span><strong>540 × 960 · 9:16</strong></div><div class="output-spec"><span>클립 길이</span><strong>최대 30초</strong></div><div class="output-spec"><span>인코딩</span><strong>H.264 / AAC · 30 fps</strong></div><div class="fixed-note">고정 안전 프리셋 · 30초 미만 입력은 전체 길이 사용</div><div class="settings-actions"><button id="generate" class="btn btn-primary btn-large" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>Generate My Short</button><button id="cancel" class="cancel-line" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>처리 취소 / Cancel processing</button><p class="privacy-mini">No account. No upload. Your hardware, your story.</p></div></aside></div></section>
+<section id="processing" class="panel processing-panel" aria-labelledby="pipelineTitle"><div class="status-top"><div><div class="status-header"><span class="status-beacon" aria-hidden="true"></span><h2 id="pipelineTitle">Behind the scenes</h2></div><p id="status" class="status-copy" role="status" aria-live="polite">준비 중</p></div><div><div class="engine-label" id="engineState">LOCAL ENGINE</div><div class="percentage"><span id="progressNumber">0</span><small>%</small></div></div></div><progress id="progress" value="0" max="100" aria-label="전체 처리 진행률"></progress><ol class="pipeline" aria-label="영상 처리 단계"><li data-step="0"><span class="checkpoint">01</span><span class="step-copy"><strong>Audio Extraction</strong><small>FFmpeg · 16 kHz mono</small></span></li><li data-step="1"><span class="checkpoint">02</span><span class="step-copy"><strong>Whisper STT</strong><small>WebGPU / WASM</small></span></li><li data-step="2"><span class="checkpoint">03</span><span class="step-copy"><strong>Highlight Detection</strong><small>Local scoring / LLM</small></span></li><li data-step="3"><span class="checkpoint">04</span><span class="step-copy"><strong>FFmpeg Render</strong><small>9:16 · Captions · MP4</small></span></li></ol><div class="terminal"><div class="terminal-bar"><i></i><i></i><i></i><span>shortflix — local-engine.log</span><button id="copyLog" type="button" aria-label="처리 로그 복사">Copy log</button></div><pre id="log" tabindex="0" aria-label="로컬 처리 로그"></pre></div><div class="progress-foot"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4 8 9 8 9s8-5 8-9V6z"/><path d="m8 12 3 3 5-6"/></svg>영상 업로드 없음 · 모든 연산은 이 기기에서 실행</span><span>진행률은 추정치이며 처리 속도는 하드웨어에 따라 달라집니다.</span></div></section>
+<section id="result" class="result-panel hidden" aria-labelledby="resultTitle"><div class="section-head"><h2 id="resultTitle"><span class="red-rule"></span>Now premiering</h2><span class="meta">YOUR SHORT. READY TO GO.</span></div><div class="panel result-shell"><div class="player-stage"><div class="player-frame"><video id="preview" controls playsinline preload="metadata" aria-label="생성된 세로 쇼츠 미리보기"></video></div></div><div class="result-info"><span class="ready-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>EXPORT COMPLETE</span><h3>Your story.<br>In the spotlight.</h3><div class="result-chips"><span class="chip">9:16 VERTICAL</span><span class="chip">H.264 MP4</span><span class="chip">LOCAL EXPORT</span></div><p id="selection"></p><p id="captionNote"></p><div class="result-actions"><a id="download" class="btn btn-primary" download="shortflix.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Download MP4 Clip</a><button id="downloadSrt" class="btn btn-secondary" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H5v20h14V7zM14 2v6h5M8 13h8m-8 4h5"/></svg>Download SRT</button></div><p id="srtHint" class="srt-hint">인식된 자막이 있으면 SRT 파일을 함께 받을 수 있습니다.</p></div></div></section>
+<footer id="privacy"><div><p>원본 영상은 서버로 전송되지 않습니다. 라이브러리·모델·폰트 다운로드 시 CDN에 일반 접속 정보가 전달됩니다. 실제 광고·분석 SDK는 포함하지 않습니다.</p><details><summary>기능 제한 및 개인정보 안내</summary><p>중앙 크롭 방식으로 가장자리 인물이 잘릴 수 있습니다. 자막은 구간 기반 근사 타이밍이며 게시 전 검토가 필요합니다. 음성 인식 실패 시 음량 기반으로 분석하고 자막 없이 출력할 수 있습니다. 오디오 트랙이 없는 영상은 추출 단계에서 실패합니다. 하드웨어·코덱 호환성과 바이럴 성과는 보장하지 않습니다.</p><p>최대 입력: 512 MiB · 30분 · 3840×2160 상당 픽셀 수. 마운트 미지원 시 메모리 복사 대체 입력은 192 MiB 이하로 제한됩니다.</p><p>브라우저 모델 캐시는 사이트 데이터에서 제거할 수 있습니다. 첫 실행 및 캐시 누락 시 인터넷 연결이 필요합니다. SHORTFLIX는 독립적인 UI 데모이며 Netflix와 관련이 없습니다.</p></details></div><span class="footer-brand">SHORTFLIX</span></footer>
+</main>
+<dialog id="ad" aria-labelledby="adtitle" aria-describedby="adExplanation"><div class="modal-head"><span class="modal-kicker">ADVERTISEMENT SIMULATION / SPONSORED BREAK</span><button id="closeAd" class="skip" aria-label="광고 시뮬레이션 닫기, 처리 계속">Close / Skip <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div><div class="sponsor-stage"><span class="sponsor-tag">FICTIONAL SHOWCASE · NO REAL ADVERTISER</span><h3 id="sponsorTitle">Big stories.<br>Small screen.</h3><p id="sponsorCopy">나만의 장면을 발견하세요. 실제 광고나 외부 스폰서 연결이 없는 데모 카드입니다.</p></div><div class="modal-body"><h2 id="adtitle">Your next highlight is in production.</h2><p id="modalStatus">준비 중…</p><div class="countdown-row"><span>쇼케이스 애니메이션 · 변환 진행률과 무관</span><span id="countdownLabel">12s</span></div><div class="countdown-track" role="progressbar" aria-label="광고 시뮬레이션 애니메이션" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="showcaseProgress"><div id="countdownFill" class="countdown-fill"></div></div><p id="adExplanation" class="modal-info">광고 시뮬레이션입니다. 광고 요청·추적·클릭 보상은 없습니다. 지금 닫아도 영상 처리는 계속되며, 카운트다운 완료를 기다릴 필요가 없습니다.</p><div class="modal-actions"><span>내 PC에서 계속 처리 중입니다.</span><button id="modalCancel" class="btn btn-secondary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>Cancel processing</button></div></div></dialog><div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script type="module">
+/* ===== ORIGINAL PROCESSING ENGINE — PRESERVED ===== */
+// All application logic lives in this HTML. No package manager or bundler.
+const $=id=>document.getElementById(id);
+const BASE=new URL('./',location.href);
+const local=path=>new URL(path,BASE).href;
+const CONFIG={maxBytes:512*1024**2,maxSeconds:1800,maxPixels:3840*2160,
+ font:'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/Korean/NotoSansCJKkr-Regular.otf'};
+let active=null,outputURL=null,gpu=false;
+function log(text){$('log').textContent=($('log').textContent+'\n'+new Date().toLocaleTimeString()+' '+text).split('\n').slice(-180).join('\n');$('log').scrollTop=$('log').scrollHeight;}
+function status(text,n){$('status').textContent=text;$('modalStatus').textContent=text;if(n!=null)$('progress').value=n;}
+function check(job){if(job.cancelled)throw new DOMException('취소됨','AbortError');}
+// Every async operation can be rejected by cancellation; dead workers never block cleanup.
+function bounded(job,promise,ms,label,stop=()=>{}){
+ return new Promise((resolve,reject)=>{
+  let done=false;
+  const finish=(fn,v)=>{if(done)return;done=true;clearTimeout(timer);job.aborters.delete(abort);fn(v);};
+  const abort=()=>{try{stop();}finally{finish(reject,new DOMException('취소됨','AbortError'));}};
+  const timer=setTimeout(()=>{try{stop();}finally{finish(reject,Error(label+' 시간 초과'));}},ms);
+  job.aborters.add(abort);promise.then(v=>finish(resolve,v),e=>finish(reject,e));if(job.cancelled)abort();
+ });
+}
+async function fetchBytes(job,url){
+ const controller=new AbortController(),abort=()=>controller.abort();job.aborters.add(abort);
+ const timer=setTimeout(abort,180000);
+ try{check(job);const r=await fetch(url,{mode:'cors',signal:controller.signal});if(!r.ok)throw Error('다운로드 HTTP '+r.status+': '+url);return new Uint8Array(await r.arrayBuffer());}
+ finally{clearTimeout(timer);job.aborters.delete(abort);}
+}
+class FFBridge{
+ constructor(job){
+  this.job=job;this.worker=new Worker(local('assets/ffmpeg-worker.js'));this.pending=new Map();this.counter=0;
+  this.worker.onmessage=({data:m})=>{
+   if(m.event==='log'){job.tail.push(m.data);if(job.tail.length>45)job.tail.shift();return;}
+   if(m.event==='progress'){if(job.rendering&&Number.isFinite(m.data))status('4단계: MP4 인코딩 중 (예상 진행률)',75+24*Math.max(0,Math.min(1,m.data)));return;}
+   const p=this.pending.get(m.id);if(!p)return;this.pending.delete(m.id);m.error?p.reject(Error(m.error)):p.resolve(m.value);
+  };
+  this.worker.onerror=e=>this.die(Error(e.message||'FFmpeg 워커 오류'));
+ }
+ call(op,data={},transfer=[],ms=120000){
+  check(this.job);
+  if(!this.worker)return Promise.reject(Error('FFmpeg 워커가 종료되었습니다'));
+  const id=++this.counter;
+  const promise=new Promise((resolve,reject)=>{this.pending.set(id,{resolve,reject});try{this.worker.postMessage({id,op,data},transfer);}catch(e){this.pending.delete(id);reject(e);}});
+  return bounded(this.job,promise,ms,'FFmpeg '+op,()=>this.die(Error('FFmpeg 작업 중단')));
+ }
+ die(error=Error('FFmpeg 종료')){this.worker?.terminate();this.worker=null;for(const p of this.pending.values())p.reject(error);this.pending.clear();}
+}
+async function loadFF(job){
+ const modes=crossOriginIsolated&&typeof SharedArrayBuffer!=='undefined'?['mt','st']:['st'];let last;
+ for(const mode of modes){
+  check(job);const ff=new FFBridge(job);job.ff=ff;
+  const base=`https://cdn.jsdelivr.net/npm/@ffmpeg/core${mode==='mt'?'-mt':''}@0.12.10/dist/umd`;
+  try{
+   log('FFmpeg 엔진 로딩: '+mode);
+   const config={};
+   for(const [key,name,type] of [['coreURL','ffmpeg-core.js','text/javascript'],['wasmURL','ffmpeg-core.wasm','application/wasm'],...(mode==='mt'?[['workerURL','ffmpeg-core.worker.js','text/javascript']]:[])]){
+    const bytes=await fetchBytes(job,base+'/'+name);check(job);
+    const url=URL.createObjectURL(new Blob([bytes],{type}));job.urls.push(url);config[key]=url;
+   }
+   await ff.call('load',config,[],180000);return ff;
+  }catch(e){last=e;ff.die();check(job);log(mode+' 엔진 로딩 실패: '+e.message);}
+ }
+ throw last;
+}
+async function exec(job,args,ms=900000){
+ const code=await job.ff.call('exec',{args,timeout:ms},[],ms+10000);check(job);
+ if(code!==0)throw Error('FFmpeg 종료 코드 '+code+': '+job.tail.slice(-8).join(' | '));
+}
+async function ai(job,op,data,transfer=[],timeout=1800000){
+ const worker=new Worker(local('assets/ai-worker.js'),{type:'module'});job.ai=worker;
+ try{
+  const promise=new Promise((resolve,reject)=>{
+   worker.onerror=e=>reject(Error(e.message||'AI 워커 로딩/실행 오류'));
+   worker.onmessage=({data:m})=>{
+    if(m.event==='result')resolve(m.data);else if(m.event==='error')reject(Error(m.data));
+    else if(m.event==='log')log(m.data);else if(m.event==='progress')status('2단계: 로컬 음성 인식 중',20+40*m.data);
+   };
+   worker.postMessage({id:1,op,data},transfer);
+  });
+  return await bounded(job,promise,timeout,'AI 처리',()=>worker.terminate());
+ }finally{worker.terminate();if(job.ai===worker)job.ai=null;}
+}
+async function metadata(file,job){
+ const v=document.createElement('video'),url=URL.createObjectURL(file);
+ try{
+  const p=new Promise((resolve,reject)=>{v.onloadedmetadata=resolve;v.onerror=()=>reject(Error('브라우저가 이 MP4 정보를 읽을 수 없습니다'));});
+  v.preload='metadata';v.src=url;await bounded(job,p,30000,'영상 정보 읽기');
+  return {duration:v.duration,width:v.videoWidth,height:v.videoHeight};
+ }finally{v.removeAttribute('src');v.load();URL.revokeObjectURL(url);}
+}
+function decodeWav(bytes){
+ const d=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+ const tag=p=>String.fromCharCode(...bytes.subarray(p,p+4));
+ if(bytes.length<44||tag(0)!=='RIFF'||tag(8)!=='WAVE')throw Error('올바르지 않은 WAV');
+ let format,channels,rate,bits,data;
+ for(let p=12;p+8<=bytes.length;){
+  const size=d.getUint32(p+4,true),start=p+8;if(start+size>bytes.length)throw Error('잘린 WAV 데이터');
+  if(tag(p)==='fmt '){if(size<16)throw Error('WAV 형식 오류');format=d.getUint16(start,true);channels=d.getUint16(start+2,true);rate=d.getUint32(start+4,true);bits=d.getUint16(start+14,true);}
+  if(tag(p)==='data')data=[start,size];p=start+size+(size&1);
+ }
+ if(format!==1||channels!==1||rate!==16000||bits!==16||!data)throw Error('16kHz mono PCM16 WAV가 필요합니다');
+ const audio=new Float32Array(Math.floor(data[1]/2));for(let i=0;i<audio.length;i++)audio[i]=d.getInt16(data[0]+i*2,true)/32768;return audio;
+}
+function rmsSeconds(audio){
+ const out=[];for(let p=0;p<audio.length;p+=16000){let sum=0;const end=Math.min(audio.length,p+16000);for(let i=p;i<end;i++)sum+=audio[i]**2;out.push(Math.sqrt(sum/(end-p)));}return out;
+}
+function rank(transcript,rms,duration){
+ const length=Math.min(30,duration),last=Math.max(0,duration-length),starts=new Set([0,last]);
+ for(let t=0;t<=last;t+=3)starts.add(t);for(const c of transcript)starts.add(Math.max(0,Math.min(last,c.start-.25)));
+ const hook=/why|secret|mistake|never|amazing|because|how|surpris|왜|비밀|실수|절대|놀라|하지만|이유|방법|진짜|중요|충격|秘密|なぜ|为什么/gi;
+ const candidates=[...starts].map(start=>{
+  const end=start+length,cues=transcript.filter(c=>c.start<end&&c.end>start),text=cues.map(c=>c.text).join(' '),energy=rms.slice(Math.floor(start),Math.ceil(end));
+  return {start,end,text,energy:energy.reduce((a,b)=>a+b,0)/Math.max(1,energy.length),peak:Math.max(0,...energy),density:[...text.replace(/\s/g,'')].length/length,hooks:(text.match(hook)||[]).length,coverage:Math.min(1,cues.reduce((a,c)=>a+Math.max(0,Math.min(end,c.end)-Math.max(start,c.start)),0)/length)};
+ });
+ for(const key of ['energy','peak','density','hooks']){const max=Math.max(.00001,...candidates.map(c=>c[key]));for(const c of candidates)c[key+'N']=c[key]/max;}
+ for(const c of candidates)c.score=.25*c.energyN+.15*c.peakN+.25*c.densityN+.25*c.hooksN+.1*c.coverage;
+ return candidates.sort((a,b)=>b.score-a.score||a.start-b.start);
+}
+function stamp(seconds){
+ let ms=Math.max(0,Math.round(seconds*1000));const h=Math.floor(ms/3600000);ms%=3600000;const m=Math.floor(ms/60000);ms%=60000;const s=Math.floor(ms/1000);ms%=1000;
+ return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(ms).padStart(3,'0')}`;
+}
+function makeSrt(transcript,start,end){
+ const cues=[];
+ for(const c of transcript){
+  const a=Math.max(start,c.start)-start,b=Math.min(end,c.end)-start;
+  const text=c.text.replace(/[<>\\{}\x00-\x1f]/g,' ').replace(/\s+/g,' ').trim();if(!text||b<=a)continue;
+  const chars=Array.from(text),parts=[];while(chars.length)parts.push(chars.splice(0,36).join(''));
+  for(let i=0;i<parts.length;i++){const x=a+(b-a)*i/parts.length,y=a+(b-a)*(i+1)/parts.length;if(Math.round(y*1000)>Math.round(x*1000))cues.push({start:x,end:y,text:parts[i]});}
+ }
+ return cues.sort((a,b)=>a.start-b.start).map((c,i)=>`${i+1}\n${stamp(c.start)} --> ${stamp(c.end)}\n${c.text}\n`).join('\n');
+}
+function cleanup(job){job.ai?.terminate();job.ff?.die();for(const url of job.urls)URL.revokeObjectURL(url);job.urls=[];}
+function clearOutput(){if(outputURL){$('preview').removeAttribute('src');$('preview').load();URL.revokeObjectURL(outputURL);outputURL=null;}$('download').removeAttribute('href');$('result').classList.add('hidden');}
+$('closeAd').onclick=()=>$('ad').close();
+$('cancel').onclick=$('modalCancel').onclick=()=>{
+ if(!active)return;active.cancelled=true;for(const abort of [...active.aborters])abort();active.ai?.terminate();active.ff?.die();status('취소 중…');
+};
+$('generate').onclick=async()=>{
+ if(active)return;const file=$('file').files[0];
+ if(!file){status('MP4 파일을 선택하세요.');return;}
+ if(!/\.mp4$/i.test(file.name)){status('MP4 파일만 지원합니다.');return;}
+ if(file.size>CONFIG.maxBytes){status('512MiB를 초과합니다. 영상을 먼저 잘라주세요.');return;}
+ const job={cancelled:false,aborters:new Set(),urls:[],tail:[],ff:null,ai:null,rendering:false};active=job;
+ const language=$('language').value,wantLLM=$('useLLM').checked;
+ for(const id of ['generate','file','language','useLLM'])$(id).disabled=true;$('cancel').disabled=false;
+ clearOutput();$('log').textContent='';$('ad').showModal();
+ try{
+  status('영상 확인 중…',0);const info=await metadata(file,job);
+  if(!Number.isFinite(info.duration)||info.duration<1||info.duration>CONFIG.maxSeconds)throw Error('1초 이상 30분 이하 영상만 지원합니다.');
+  if(!info.width||!info.height||info.width*info.height>CONFIG.maxPixels)throw Error('지원 해상도(4K 상당 픽셀 수)를 초과합니다.');
+  const ff=await loadFF(job);let input='/input/source.mp4';
+  try{await ff.call('mount',{file:new File([file],'source.mp4',{type:'video/mp4'})});}
+  catch(e){
+   check(job);log('WORKERFS 사용 불가: 작은 파일에 한해 메모리 복사로 전환');
+   if(file.size>192*1024**2)throw Error('이 엔진은 큰 파일을 마운트할 수 없습니다. 192MiB 이하로 잘라주세요.');
+   input='source.mp4';const bytes=new Uint8Array(await file.arrayBuffer());await ff.call('write',{path:input,bytes},[bytes.buffer]);
+  }
+  status('1단계: 오디오 추출 중',5);log('오디오를 16kHz mono PCM16 WAV로 추출합니다.');
+  await exec(job,['-i',input,'-map','0:a:0','-vn','-ac','1','-ar','16000','-c:a','pcm_s16le','audio.wav']);
+  let wav=await ff.call('read',{path:'audio.wav'});let audio=decodeWav(wav);wav=null;await ff.call('unlink',{path:'audio.wav'});
+  const rms=rmsSeconds(audio);let transcript=[];
+  status('2단계: 음성 인식 모델 준비 중',20);
+  try{transcript=await ai(job,'transcribe',{audio,language,gpu},[audio.buffer]);audio=null;log('자막 구간 '+transcript.length+'개 인식 완료');}
+  catch(e){check(job);audio=null;log('STT 실패: '+e.message+' — 음량 기반 분석으로 전환. 자막은 생성하지 않습니다.');}
+  check(job);status('3단계: 하이라이트 후보 분석',62);
+  const candidates=rank(transcript,rms,info.duration);let selected=candidates[0],method=transcript.length?'자막 + 음량 휴리스틱':'음량 전용 휴리스틱';
+  if(wantLLM&&gpu&&transcript.length){
+   const shortlist=[];for(const c of candidates){if(shortlist.every(x=>Math.abs(x.start-c.start)>=8))shortlist.push(c);if(shortlist.length===8)break;}
+   try{const index=await ai(job,'rank',{candidates:shortlist},[],600000);selected=shortlist[index];method='로컬 LLM 후보 평가';}
+   catch(e){check(job);log('LLM 실패: '+e.message+' — 휴리스틱 결과 유지');}
+  }else if(wantLLM)log('WebGPU 또는 자막이 없어 LLM을 생략합니다.');
+  const {start,end}=selected;log(`선택: ${start.toFixed(2)} ~ ${end.toFixed(2)}초 (${method})`);
+  const srt=makeSrt(transcript,start,end);let captions=false;
+  if(srt){
+   try{
+    log('한글 지원 자막 폰트 다운로드 중…');const bytes=await fetchBytes(job,CONFIG.font);
+    if(bytes.length<1000||bytes.length>25*1024**2)throw Error('폰트 크기 확인 실패');
+    await ff.call('mkdir',{path:'/fonts'});await ff.call('write',{path:'/fonts/NotoSansCJKkr-Regular.otf',bytes},[bytes.buffer]);
+    const subtitle=new TextEncoder().encode(srt);await ff.call('write',{path:'captions.srt',bytes:subtitle},[subtitle.buffer]);captions=true;
+   }catch(e){check(job);log('자막 준비 실패: '+e.message+' — 자막 없는 MP4로 진행');}
+  }
+  status('4단계: 세로 크롭 + 자막 + 인코딩',75);job.rendering=true;
+  const crop='scale=540:960:force_original_aspect_ratio=increase:force_divisible_by=2,crop=540:960,setsar=1';
+  const burn="subtitles=filename=captions.srt:fontsdir=/fonts:force_style='FontName=Noto Sans CJK KR,FontSize=20,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,Alignment=2,MarginV=70'";
+  const render=withCaptions=>exec(job,['-ss',start.toFixed(3),'-i',input,'-t',(end-start).toFixed(3),'-map','0:v:0','-map','0:a:0?','-sn','-dn','-vf',withCaptions?crop+','+burn:crop,'-r','30','-c:v','libx264','-preset','ultrafast','-crf','25','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-ac','2','-movflags','+faststart','-map_metadata','-1','-y','output.mp4'],1800000);
+  try{await render(captions);}
+  catch(e){check(job);if(captions&&/subtitles|libass|fontconfig|fontsdir/i.test(e.message)){log('자막 필터 오류 — 자막 없이 재시도');captions=false;await render(false);}else throw e;}
+  let bytes=await ff.call('read',{path:'output.mp4'});if(!bytes.length)throw Error('출력 파일이 비어 있습니다.');
+  const blob=new Blob([bytes],{type:'video/mp4'});bytes=null;check(job);outputURL=URL.createObjectURL(blob);
+  $('preview').src=outputURL;$('download').href=outputURL;$('selection').textContent=`${start.toFixed(2)} ~ ${end.toFixed(2)}초 · 540×960 · ${method}`;
+  $('captionNote').textContent=captions?'자막 포함. 구간 기반 근사 타이밍이므로 게시 전에 검토하세요.':'자막 없음: STT, 폰트 또는 자막 렌더링을 사용할 수 없었습니다.';
+  $('result').classList.remove('hidden');status('완료 — 미리보기와 다운로드 가능',100);
+ }catch(e){status(job.cancelled?'취소되었습니다.':'실패: '+e.message,0);log($('status').textContent);}
+ finally{cleanup(job);if($('ad').open)$('ad').close();active=null;for(const id of ['generate','file','language','useLLM'])$(id).disabled=false;$('cancel').disabled=true;}
+};
+(async()=>{
+ if(location.protocol==='file:'){status('file:// 실행은 지원하지 않습니다. Cloudflare Pages에 업로드하세요.');return;}
+ if(!isSecureContext){status('HTTPS가 필요합니다.');return;}
+ const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ if(mobile){status('모바일 미지원: 데스크톱 Chrome/Edge에서 실행하세요.');return;}
+ if(typeof Worker==='undefined'||typeof WebAssembly==='undefined'){status('Web Worker / WebAssembly가 필요합니다.');return;}
+ try{gpu=!!(navigator.gpu&&await navigator.gpu.requestAdapter());}catch{}
+ $('capability').textContent=`WebGPU: ${gpu?'사용 가능':'사용 불가 — CPU 대체'} / 교차 출처 격리: ${crossOriginIsolated?'활성':'비활성 — 단일 스레드'}`;
+ $('generate').disabled=false;status('MP4를 선택하세요.');
+})();
+window.addEventListener('beforeunload',()=>{if(active){active.ai?.terminate();active.ff?.die();}if(outputURL)URL.revokeObjectURL(outputURL);});
+
+/* ===== END ORIGINAL ENGINE ===== */
+
+/* ===== PRESENTATION-ONLY ADAPTERS =====
+   The engine block above is preserved. No worker channel, timeout, FFmpeg argument,
+   validation, model configuration or pipeline branch is changed here.
+   The SRT binding observes makeSrt's existing return value and returns it unchanged.
+*/
+(()=>{
+ let srtText='',toastTimer=null,showcaseTimer=null,showcaseStart=0;
+ const downloadURLs=new Set();
+ const steps=[...document.querySelectorAll('[data-step]')];
+ function notify(message){
+  clearTimeout(toastTimer);$('toast').textContent=message;$('toast').classList.remove('hidden');
+  toastTimer=setTimeout(()=>$('toast').classList.add('hidden'),3500);
+ }
+ function syncSrt(){
+  const available=Boolean(srtText)&&!$('result').classList.contains('hidden');
+  $('downloadSrt').disabled=!available;
+  $('srtHint').textContent=available?'SRT는 선택된 클립 기준 타임스탬프입니다. 게시 전에 내용과 싱크를 확인하세요.':'다운로드 가능한 자막이 없습니다. 음성 인식 결과가 있을 때 활성화됩니다.';
+ }
+ // Minimal DOM-binding hook: copy the generated text; never regenerate subtitles,
+ // mutate transcript arguments, insert an await, or change the engine's return value.
+ const originalMakeSrt=makeSrt;
+ makeSrt=function(...args){
+  const text=Reflect.apply(originalMakeSrt,this,args);
+  try{srtText=typeof text==='string'?text:'';syncSrt();}catch{/* UI must never reject the core pipeline. */}
+  return text;
+ };
+ $('downloadSrt').addEventListener('click',()=>{
+  if(!srtText||$('result').classList.contains('hidden'))return;
+  const url=URL.createObjectURL(new Blob([srtText],{type:'application/x-subrip;charset=utf-8'}));
+  downloadURLs.add(url);
+  const a=document.createElement('a');a.href=url;a.download='shortflix.srt';document.body.append(a);a.click();a.remove();
+  setTimeout(()=>{URL.revokeObjectURL(url);downloadURLs.delete(url);},30000);
+ });
+ $('generate').addEventListener('click',()=>{
+  const file=$('file').files[0];
+  if(!active&&file&&/\.mp4$/i.test(file.name)&&file.size<=CONFIG.maxBytes){srtText='';$('downloadSrt').disabled=true;}
+ },{capture:true});
+ function selectedFile(){
+  const file=$('file').files[0];$('fileSummary').classList.toggle('hidden',!file);
+  $('fileName').textContent=file?.name||'';
+  $('fileSize').textContent=file?`${(file.size/1024**2).toFixed(1)} MiB · LOCAL SOURCE`:'';
+  $('uploadWarning').textContent=!file?'':!/\.mp4$/i.test(file.name)?'MP4 파일만 지원합니다.':file.size>CONFIG.maxBytes?'512 MiB 제한을 초과합니다. 영상을 먼저 잘라주세요.':'';
+ }
+ $('file').addEventListener('change',selectedFile);
+ const zone=$('dropzone');let dragDepth=0;
+ // The real file input remains keyboard-accessible. Drag/drop only feeds that input.
+ for(const type of ['dragenter','dragover','dragleave','drop'])zone.addEventListener(type,event=>{
+  event.preventDefault();event.stopPropagation();
+  if($('file').disabled){zone.classList.remove('dragging');return;}
+  if(type==='dragenter'){dragDepth++;zone.classList.add('dragging');}
+  if(type==='dragover'){if(event.dataTransfer)event.dataTransfer.dropEffect='copy';}
+  if(type==='dragleave'){dragDepth=Math.max(0,dragDepth-1);if(!dragDepth)zone.classList.remove('dragging');}
+  if(type==='drop'){
+   dragDepth=0;zone.classList.remove('dragging');
+   const files=event.dataTransfer?.files;if(!files?.length)return;
+   if(files.length>1){notify('한 번에 MP4 파일 하나만 선택하세요.');return;}
+   try{const transfer=new DataTransfer();transfer.items.add(files[0]);$('file').files=transfer.files;$('file').dispatchEvent(new Event('change',{bubbles:true}));}
+   catch{notify('이 브라우저에서는 클릭하여 파일을 선택하세요.');}
+  }
+ });
+ // Prevent accidental browser navigation when a file misses the drop-zone.
+ window.addEventListener('dragover',e=>{if([...e.dataTransfer?.types||[]].includes('Files'))e.preventDefault();});
+ window.addEventListener('drop',e=>{if([...e.dataTransfer?.types||[]].includes('Files'))e.preventDefault();});
+ function refreshPipeline(){
+  const number=Math.round(Math.max(0,Math.min(100,Number($('progress').value)||0)));
+  $('progressNumber').textContent=number;
+  const text=$('status').textContent||'',busy=Boolean(active),success=/^완료/.test(text),error=/^실패:/.test(text);
+  $('processing').classList.toggle('is-working',busy&&!success&&!error);
+  $('processing').classList.toggle('is-success',success);
+  $('processing').classList.toggle('is-error',error);
+  $('engineState').textContent=success?'EXPORT COMPLETE':error?'ACTION REQUIRED':busy?'ENGINE RUNNING':'LOCAL ENGINE';
+  const stage=number>=75?3:number>=62?2:number>=20?1:number>=5?0:-1;
+  for(let i=0;i<steps.length;i++){
+   const done=success||(busy&&i<stage),current=busy&&!success&&!error&&i===stage;
+   steps[i].classList.toggle('done',done);steps[i].classList.toggle('current',current);
+   if(current)steps[i].setAttribute('aria-current','step');else steps[i].removeAttribute('aria-current');
+   steps[i].querySelector('.checkpoint').textContent=done?'✓':String(i+1).padStart(2,'0');
+  }
+  zone.classList.toggle('busy',$('file').disabled);
+ }
+ const pipelineObserver=new MutationObserver(refreshPipeline);
+ pipelineObserver.observe($('progress'),{attributes:true,attributeFilter:['value']});
+ pipelineObserver.observe($('status'),{childList:true,subtree:true,characterData:true});
+ pipelineObserver.observe($('file'),{attributes:true,attributeFilter:['disabled']});
+ const resultObserver=new MutationObserver(()=>{
+  syncSrt();if(!$('result').classList.contains('hidden'))$('result').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+ });
+ resultObserver.observe($('result'),{attributes:true,attributeFilter:['class']});
+ $('copyLog').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText($('log').textContent||'');notify('처리 로그를 복사했습니다.');}
+  catch{notify('로그를 선택한 뒤 직접 복사하세요.');$('log').focus();}
+ });
+ const sponsors=[
+  {title:'Big stories. Small screen.',copy:'나만의 장면을 발견하세요. 실제 광고나 외부 스폰서 연결이 없는 데모 카드입니다.'},
+  {title:'Your hardware. Your spotlight.',copy:'영상은 내 PC에서 처리됩니다. 이 카드는 가상의 쇼케이스이며 광고 클릭을 요구하지 않습니다.'},
+  {title:'Made local. Ready to share.',copy:'결과를 미리 보고 게시 전에 확인하세요. 언제든 Close / Skip으로 패널을 닫을 수 있습니다.'}
+ ];
+ function tickShowcase(){
+  const elapsed=Math.min(12,(performance.now()-showcaseStart)/1000),remaining=Math.max(0,Math.ceil(12-elapsed));
+  $('countdownFill').style.width=`${elapsed/12*100}%`;
+  $('showcaseProgress').setAttribute('aria-valuenow',String(Math.floor(elapsed)));
+  $('countdownLabel').textContent=remaining?remaining+'s':'쇼케이스 완료';
+  const card=sponsors[Math.min(2,Math.floor(elapsed/4))];
+  if($('sponsorTitle').textContent!==card.title){$('sponsorTitle').textContent=card.title;$('sponsorCopy').textContent=card.copy;}
+  if(elapsed>=12){clearInterval(showcaseTimer);showcaseTimer=null;}
+ }
+ const adObserver=new MutationObserver(()=>{
+  clearInterval(showcaseTimer);showcaseTimer=null;
+  if($('ad').open){showcaseStart=performance.now();tickShowcase();showcaseTimer=setInterval(tickShowcase,120);}
+ });
+ adObserver.observe($('ad'),{attributes:true,attributeFilter:['open']});
+ window.addEventListener('beforeunload',()=>{
+  clearInterval(showcaseTimer);clearTimeout(toastTimer);for(const url of downloadURLs)URL.revokeObjectURL(url);
+  pipelineObserver.disconnect();resultObserver.disconnect();adObserver.disconnect();
+ });
+ selectedFile();syncSrt();refreshPipeline();
+})();
+
+</script></body></html>
