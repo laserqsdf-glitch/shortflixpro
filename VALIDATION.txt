@@ -1,0 +1,114 @@
+JavaScript syntax: app, editor-core, FFmpeg worker, AI worker PASS
+DOM binding and unique IDs: PASS
+Pure function tests: 40 PASS
+Includes 120-second validation/SRT/ASS, candidate selection/ranking output validation,
+Whisper audio WAV parsing, layout/title/caption fit, project V2/V3 compatibility.
+Native FFmpeg synthetic filter/pixel tests: 10 PASS (5 ratios x black/white)
+Checks no crop, full 9:16 source area, landscape/square text only in padding.
+Native uses ASCII/DejaVu and deterministic measurement, not downloaded Noto/Canvas.
+NOT RUN: browser UI interactions/accessibility, full browser Wasm encode,
+actual model/CDN downloads, WebGPU Whisper-small or WebLLM inference,
+Korean highlight quality, full 120-second real media integration,
+cancellation/repeated-run memory, Pages deployment.
+[
+  {
+    "input": "1920x1080",
+    "background": "black",
+    "source_bounds": {
+      "x": 0,
+      "y": 656,
+      "w": 1080,
+      "h": 608
+    }
+  },
+  {
+    "input": "1920x1080",
+    "background": "white",
+    "source_bounds": {
+      "x": 0,
+      "y": 656,
+      "w": 1080,
+      "h": 608
+    }
+  },
+  {
+    "input": "1080x1920",
+    "background": "black",
+    "source_bounds": {
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 1920
+    }
+  },
+  {
+    "input": "1080x1920",
+    "background": "white",
+    "source_bounds": {
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 1920
+    }
+  },
+  {
+    "input": "1080x1080",
+    "background": "black",
+    "source_bounds": {
+      "x": 0,
+      "y": 420,
+      "w": 1080,
+      "h": 1080
+    }
+  },
+  {
+    "input": "1080x1080",
+    "background": "white",
+    "source_bounds": {
+      "x": 0,
+      "y": 420,
+      "w": 1080,
+      "h": 1080
+    }
+  },
+  {
+    "input": "1080x1350",
+    "background": "black",
+    "source_bounds": {
+      "x": 0,
+      "y": 284,
+      "w": 1080,
+      "h": 1350
+    }
+  },
+  {
+    "input": "1080x1350",
+    "background": "white",
+    "source_bounds": {
+      "x": 0,
+      "y": 284,
+      "w": 1080,
+      "h": 1350
+    }
+  },
+  {
+    "input": "1080x2000",
+    "background": "black",
+    "source_bounds": {
+      "x": 22,
+      "y": 0,
+      "w": 1036,
+      "h": 1920
+    }
+  },
+  {
+    "input": "1080x2000",
+    "background": "white",
+    "source_bounds": {
+      "x": 22,
+      "y": 0,
+      "w": 1036,
+      "h": 1920
+    }
+  }
+]

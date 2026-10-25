@@ -1,0 +1,23 @@
+{
+  "format": "shortflix-studio-v3",
+  "settings": {
+    "title": "나만의 하이라이트",
+    "background": "black",
+    "clipStart": 0,
+    "duration": 120,
+    "size": 56,
+    "color": "#ffffff",
+    "box": 0.55,
+    "outline": 3,
+    "bold": false
+  },
+  "cues": [
+    {
+      "id": 1,
+      "start": 0,
+      "end": 3,
+      "text": "첫 번째 수동 자막"
+    }
+  ],
+  "source": null
+}
