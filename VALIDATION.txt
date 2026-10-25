@@ -1,0 +1,132 @@
+Syntax: main module + worker PASS
+DOM literal bindings and unique IDs: PASS
+No Whisper/Transformers/WebLLM imports in application: PASS
+Pure tests: 25 PASS (layout, title auto-fit, SRT parsing/roundtrip, timing/overlap, ASS sanitation)
+Native FFmpeg filter/pixel tests: 10 PASS (5 ratios x 2 backgrounds)
+Exact 9:16 source fills 1080x1920; landscape/square text remains outside source image.
+Native tests use ASCII/DejaVu Sans and deterministic measurement, not browser Canvas/CJK rendering.
+Not tested: browser DOM interaction/accessibility, Canvas title metrics with downloaded font,
+SRT editor workflows in real browser, CDN downloads, Wasm, cancellation/repeated-run memory,
+full real-media export or Cloudflare deployment.
+[
+  {
+    "input": "1920x1080",
+    "bg": "black",
+    "mode": "padding",
+    "source_bounds": {
+      "x": 0,
+      "y": 656,
+      "w": 1080,
+      "h": 608
+    },
+    "test_title_px": 384
+  },
+  {
+    "input": "1920x1080",
+    "bg": "white",
+    "mode": "padding",
+    "source_bounds": {
+      "x": 0,
+      "y": 656,
+      "w": 1080,
+      "h": 608
+    },
+    "test_title_px": 384
+  },
+  {
+    "input": "1080x1920",
+    "bg": "black",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 1920
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x1920",
+    "bg": "white",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 1920
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x1080",
+    "bg": "black",
+    "mode": "padding",
+    "source_bounds": {
+      "x": 0,
+      "y": 420,
+      "w": 1080,
+      "h": 1080
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x1080",
+    "bg": "white",
+    "mode": "padding",
+    "source_bounds": {
+      "x": 0,
+      "y": 420,
+      "w": 1080,
+      "h": 1080
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x1350",
+    "bg": "black",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 0,
+      "y": 284,
+      "w": 1080,
+      "h": 1350
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x1350",
+    "bg": "white",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 0,
+      "y": 284,
+      "w": 1080,
+      "h": 1350
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x2000",
+    "bg": "black",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 22,
+      "y": 0,
+      "w": 1036,
+      "h": 1920
+    },
+    "test_title_px": 226
+  },
+  {
+    "input": "1080x2000",
+    "bg": "white",
+    "mode": "overlay",
+    "source_bounds": {
+      "x": 22,
+      "y": 0,
+      "w": 1036,
+      "h": 1920
+    },
+    "test_title_px": 226
+  }
+]
